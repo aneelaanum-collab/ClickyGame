@@ -25,11 +25,21 @@
 <body>
 
   <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
+  <p>This is a mini game project.</p>
   <p id="scoreDisplay">0</p>
   <p id="timerDisplay">60</p>
-  <button id="button1">Click Me</button>
+  <button id="button1">Play Game</button>
+  <label id="label1" for="name"> Name (3 to 8 characters):</label>
+<input
+  type="text"
+  id="name"
+  name="name"
+  required
+  minlength="4"
+  maxlength="8"
+  size="10" />
 
+  <button id="button2">Submit High Score</button>
   <script src="js/app.js"></script>
 
 </body>
