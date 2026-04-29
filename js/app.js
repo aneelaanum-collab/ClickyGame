@@ -30,11 +30,12 @@ button2.addEventListener('click', () => {
 input1.style.display = 'none';
 label1.style.display = 'none';
 button2.style.display = 'none';
-// Function
+// Function to increase score value
 function increaseScore() {
   score++;
   scoreDisplay.innerText = score;
 }
+//Function to reduce time
 function countdown() {
   timeLeft--;
   timerDisplay.innerText = timeLeft;
@@ -44,11 +45,13 @@ function countdown() {
     endGame();
   }
 }
-
+//Function to handle game start
 function startGame(){
   interval = setInterval(countdown, 1000);
   gameStarted = true;
 }
+// Function to handle game end
+
 function endGame(){
   gameEnded = true;
   clearInterval(interval);
@@ -57,8 +60,51 @@ function endGame(){
   label1.style.display = 'block';
   button2.style.display = 'block';
 }
-function submitHighScore() {
+// Function to handle submit score
+async function submitHighScore() {
   console.log(input1.value);
-}
+  const response = await fetch("https://hooks.zapier.com/hooks/catch/8338993/ujs9jj9/", {
+    method: "POST",
+    body: JSON.stringify({ name: "Aneela", score: score }),
+  });
+  alert(score);
+  console.log(response);
 
+}
+// Function to fetch data
+function getScoreBoardData() {
+  const url = 'https://script.google.com/macros/s/AKfycbys5aEPMvNCutyhNYYCcQcCjzsi2UtqNspmKyCH-AicJxJbCJMrAoT0LUaYaXhTWA8n/exec';
+  fetch(url)
+    .then(response => {
+      console.log('Response object:', response);
+      return response.json();
+    })
+    .then(data => {
+      console.log('Scoreboard data:', data);
+
+      // Sort data by score in descending order and get top 10
+      const topScores = data
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 10);
+
+      // Populate the scoreboard table
+      const scoreboardBody = document.getElementById('scoreboardBody');
+      scoreboardBody.innerHTML = ''; // Clear existing data
+
+      topScores.forEach((player, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${player.name}</td>
+          <td>${player.score}</td>
+        `;
+        scoreboardBody.appendChild(row);
+        console.log(`Row ${index + 1}: Name=${player.name}, Score=${player.score}`);
+      });
+    })
+    .catch(error => {
+      console.error('Fetch error:', error);
+    });
+}
+getScoreBoardData();
 
