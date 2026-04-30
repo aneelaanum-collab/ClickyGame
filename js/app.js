@@ -82,16 +82,11 @@ function getScoreBoardData() {
     .then(data => {
       console.log('Scoreboard data:', data);
 
-      // Sort data by score in descending order and get top 10
+      // Top 10 score in order
       const topScores = data
         .sort((a, b) => b.score - a.score)
         .slice(0, 10);
 
-      // Populate the scoreboard table
-      const scoreboardBody = document.getElementById('scoreboardBody');
-      scoreboardBody.innerHTML = ''; // Clear existing data
-
-      topScores.forEach((player, index) => {
       // show players data on page
       const scoreboardBody = document.getElementById('scoreboard');
       scoreboardBody.innerHTML = topScores.map((player, index) => `
