@@ -2,7 +2,7 @@
 // Variables
 
 let score = 0;
-let timeLeft = 60;
+let timeLeft = 2;
 let gameStarted = false;
 let gameEnded = false;
 let interval = null
@@ -65,11 +65,11 @@ async function submitHighScore() {
   console.log(input1.value);
   const response = await fetch("https://hooks.zapier.com/hooks/catch/8338993/ujs9jj9/", {
     method: "POST",
-    body: JSON.stringify({ name: "Aneela", score: score }),
+    body: JSON.stringify({ name: input1.value, score: score }),
   });
   alert(score);
   console.log(response);
-
+console.log("this is",input1.value);
 }
 // Function to fetch data
 function getScoreBoardData() {
@@ -92,19 +92,18 @@ function getScoreBoardData() {
       scoreboardBody.innerHTML = ''; // Clear existing data
 
       topScores.forEach((player, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
+      // show players data on page
+      const scoreboardBody = document.getElementById('scoreboard');
+      scoreboardBody.innerHTML = topScores.map((player, index) => `
+        <tr>
           <td>${index + 1}</td>
           <td>${player.name}</td>
           <td>${player.score}</td>
-        `;
-        scoreboardBody.appendChild(row);
-        console.log(`Row ${index + 1}: Name=${player.name}, Score=${player.score}`);
-      });
+        </tr>
+      `).join('');
     })
     .catch(error => {
       console.error('Fetch error:', error);
     });
 }
 getScoreBoardData();
-
